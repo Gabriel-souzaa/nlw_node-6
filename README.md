@@ -1,2 +1,2 @@
-# nlw_node-Together
+# NLW #6
 NLW/Together

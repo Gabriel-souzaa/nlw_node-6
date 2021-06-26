@@ -1,18 +1,23 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { CreateTagServices } from '../services/CreateTagServices';
 
 class CreateTagControllers {
-    async handle(request: Request, response: Response){
-        const {
+   async handle(request: Request, response: Response, next: NextFunction) {
+      try {
+         const {
             name
-        } = request.body;
+         } = request.body;
 
-        const createTagService = new CreateTagServices();
+         const createTagService = new CreateTagServices();
 
-        const tag = await createTagService.execute(name);
+         const tag = await createTagService.execute(name);
 
-        return response.json(tag);
-    }
+         return response.json(tag);
+      } catch (error) {
+         next(error);
+      }
+   }
 }
 
-export { CreateTagControllers }
+export { CreateTagControllers };
+

@@ -1,19 +1,23 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { AuthenticateUserService } from '../services/AuthenticateUserServices';
 
 class AuthenticateUserControllers {
-    async handle(request: Request, response: Response) {
-        const {
+   async handle(request: Request, response: Response, next: NextFunction) {
+      try {
+         const {
             email,
             password
-        } = request.body;
+         } = request.body;
 
-        const authenticateUserService = new AuthenticateUserService();
+         const authenticateUserService = new AuthenticateUserService();
 
-        const token = await authenticateUserService.execute({ email, password });
+         const token = await authenticateUserService.execute({ email, password });
 
-        return response.json(token);
-    }
+         return response.json(token);
+      } catch (error) {
+         next(error);
+      }
+   }
 }
 
 export { AuthenticateUserControllers };
